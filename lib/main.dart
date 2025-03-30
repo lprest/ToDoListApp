@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -57,10 +59,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Extracted Title Widget
   Widget _buildTitle() {
     return const Text(
-      'Title Page',
+      'Welcome to my To Do list app!',
       style: TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.bold,
@@ -111,7 +112,7 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                'This is my first Flutter app. It is a little rough at the moment but it is a starting place.',
+                'This is my first Flutter app. It is a little rough at the moment but it is a starting place. Currently I have a home page (which you are currently on) and a to do list page that will allow you to make a to do list.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
@@ -140,6 +141,7 @@ class _ToDoPageState extends State<ToDoPage> {
         _tasks.add({'title': _taskController.text, 'done': false});
         _taskController.clear();
       });
+      _saveTasks();
     }
   }
 
@@ -147,30 +149,73 @@ class _ToDoPageState extends State<ToDoPage> {
     setState(() {
       _tasks[index]['done'] = !_tasks[index]['done'];
     });
+    _saveTasks();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTasks();
+  }
+
+  Future<void> _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? tasksString = prefs.getString('tasks');
+    if (tasksString != null) {
+      setState(() {
+        _tasks = List<Map<String, dynamic>>.from(json.decode(tasksString));
+      });
+    }
+  }
+
+  Future<void> _saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String tasksString = json.encode(_tasks);
+    await prefs.setString('tasks', tasksString);
   }
 
   void _deleteTask(int index) {
     setState(() {
       _tasks.removeAt(index);
     });
+    _saveTasks();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('To-Do List')),
+      appBar: AppBar(title: const Text('To-Do List'),
+        backgroundColor: Colors.pinkAccent,
+      ),
+      backgroundColor: const Color(0xFFFFDB58), // Mustard yellow background
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _taskController,
-              decoration: InputDecoration(
-                labelText: 'Enter a task',
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: _addTask,
+            Card(
+              color: Colors.white, // Background color for contrast
+              elevation: 5, // Shadow effect
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _taskController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter a task...',
+                          border: InputBorder.none, // Remove default border for cleaner look
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add, color: Colors.blue),
+                      onPressed: _addTask,
+                    ),
+                  ],
                 ),
               ),
             ),
