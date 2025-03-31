@@ -49,7 +49,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Extracted Image Widget
   Widget _buildImage() {
     return Image.asset(
       "images/cat.jpeg",
@@ -70,7 +69,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Extracted Button Widget
   Widget _buildNavigationButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
@@ -93,7 +91,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Extracted Description Card
   Widget _buildDescriptionCard() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
