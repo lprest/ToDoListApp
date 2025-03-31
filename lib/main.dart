@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFDB58), // Mustard yellow color
+      backgroundColor: const Color(0xFFFFDB58),
       appBar: AppBar(
         title: const Text('Home Page'),
         backgroundColor: Colors.pinkAccent,
@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Card(
-        color: const Color(0xFFFFC0CB), // Baby Pink Background
+        color: const Color(0xFFFFC0CB),
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -187,14 +187,14 @@ class _ToDoPageState extends State<ToDoPage> {
       appBar: AppBar(title: const Text('To-Do List'),
         backgroundColor: Colors.pinkAccent,
       ),
-      backgroundColor: const Color(0xFFFFDB58), // Mustard yellow background
+      backgroundColor: const Color(0xFFFFDB58),
       body: Padding(
       padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Card(
-              color: Colors.white, // Background color for contrast
-              elevation: 5, // Shadow effect
+              color: Colors.white,
+              elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -207,7 +207,7 @@ class _ToDoPageState extends State<ToDoPage> {
                         controller: _taskController,
                         decoration: InputDecoration(
                           hintText: 'Enter a task...',
-                          border: InputBorder.none, // Remove default border for cleaner look
+                          border: InputBorder.none,
                         ),
                       ),
                     ),
