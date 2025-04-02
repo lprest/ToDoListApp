@@ -120,7 +120,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
+//Defines the new page
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
 
@@ -131,6 +131,8 @@ class ToDoPage extends StatefulWidget {
 class _ToDoPageState extends State<ToDoPage> {
   final TextEditingController _taskController = TextEditingController();
   List<Map<String, dynamic>> _tasks = [];
+  //_taskController: Tracks what the user types into the input box.
+  //_tasks: A list of tasks, each one has a title and a done status.
 
   void _addTask() {
     if (_taskController.text.isNotEmpty) {
@@ -141,6 +143,8 @@ class _ToDoPageState extends State<ToDoPage> {
       _saveTasks();
     }
   }
+  //Adds a new task if the input box isn’t empty.
+  //Clears the input box and saves the list.
 
   void _toggleTask(int index) {
     setState(() {
@@ -148,12 +152,15 @@ class _ToDoPageState extends State<ToDoPage> {
     });
     _saveTasks();
   }
+  //When the checkbox is clicked, toggles the task between done/not done.
 
   @override
   void initState() {
     super.initState();
     _loadTasks();
   }
+  //Called when the page is first created.
+  //Loads saved tasks from storage.
 
   Future<void> _loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
@@ -164,12 +171,14 @@ class _ToDoPageState extends State<ToDoPage> {
       });
     }
   }
+  //Gets saved tasks (as JSON string), decodes them back into a list.
 
   Future<void> _saveTasks() async {
     final prefs = await SharedPreferences.getInstance();
     final String tasksString = json.encode(_tasks);
     await prefs.setString('tasks', tasksString);
   }
+  //Saves the current list of tasks to storage (as a JSON string).
 
   void _deleteTask(int index) {
     setState(() {
@@ -177,6 +186,7 @@ class _ToDoPageState extends State<ToDoPage> {
     });
     _saveTasks();
   }
+  //Removes a task from the list and saves the change.
 
   @override
   Widget build(BuildContext context) {
@@ -185,12 +195,15 @@ class _ToDoPageState extends State<ToDoPage> {
         backgroundColor: Colors.pinkAccent,
       ),
       backgroundColor: const Color(0xFFFFDB58),
+      //Sets up the To-Do List page with a pink app bar and yellow background.
       body: Padding(
       padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            //Adds padding and starts a column layout for input + task list.
             Card(
               color: Colors.white,
+              //White card that contains the task input field and the add button.
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -211,6 +224,7 @@ class _ToDoPageState extends State<ToDoPage> {
                     IconButton(
                       icon: const Icon(Icons.add, color: Colors.blue),
                       onPressed: _addTask,
+                      //Button to add the typed task.
                     ),
                   ],
                 ),
@@ -220,6 +234,7 @@ class _ToDoPageState extends State<ToDoPage> {
             Expanded(
               child: ListView.builder(
                 itemCount: _tasks.length,
+                //Shows a scrollable list of task cards.
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
@@ -238,6 +253,13 @@ class _ToDoPageState extends State<ToDoPage> {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () => _deleteTask(index),
+                        //Each task is shown as a card:
+                        //
+                        // Checkbox to mark done
+                        //
+                        // Task text
+                        //
+                        // Delete button
                       ),
                     ),
                   );
