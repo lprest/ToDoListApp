@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+//flutter/material.dart: Gives you access to all the core Flutter widgets.
+//shared_preferences: Lets you save small bits of data locally on the device.
+//dart:convert: Lets you convert data (like lists and maps) to/from JSON format (useful for saving tasks).
 
 void main() {
   runApp(const MyApp());
 }
+//runApp(...) launches the app using MyApp.
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+//Defines the new page.
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +25,31 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//build(...): Creates the UI of the app.
+//MaterialApp: The root of the app that sets:
+    //Title: "My Flutter App"
+    //Theme: Amber color scheme
+    //Home page: The first screen is HomePage
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+  //Defines the HomePage widget.
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //Scaffold: Provides structure like app bar, background, etc.
       backgroundColor: const Color(0xFFFFDB58),
       appBar: AppBar(
         title: const Text('Home Page'),
         backgroundColor: Colors.pinkAccent,
+        //Displays the top bar with a title and pink background.
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          //Centers everything vertically
+          //Uses a column to stack widgets top to bottom.
           children: [
             _buildImage(),
             const SizedBox(height: 20),
@@ -43,6 +58,11 @@ class HomePage extends StatelessWidget {
             _buildNavigationButton(context),
             const SizedBox(height: 30),
             _buildDescriptionCard(),
+            //These are the widgets inside the column:
+                //Image
+                //Title text
+                //Button to go to the To-Do List
+                //Description card
           ],
         ),
       ),
@@ -57,6 +77,7 @@ class HomePage extends StatelessWidget {
       fit: BoxFit.cover,
     );
   }
+  //Shows a cat image from the app’s asset folder.
 
   Widget _buildTitle() {
     return const Text(
@@ -68,6 +89,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+  //Displays the welcome message in bold text.
 
   Widget _buildNavigationButton(BuildContext context) {
     return ElevatedButton(
@@ -76,6 +98,7 @@ class HomePage extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => const ToDoPage()),
         );
+        //A button that, when pressed, navigates to the ToDoPage.
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.pinkAccent,
@@ -87,6 +110,7 @@ class HomePage extends StatelessWidget {
       child: const Text(
         'To Do List',
         style: TextStyle(fontSize: 18, color: Colors.white),
+        //The label on the button is "To Do List".
       ),
     );
   }
@@ -96,6 +120,7 @@ class HomePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Card(
         color: const Color(0xFFFFC0CB),
+        //This builds a pink card with text inside.
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -103,6 +128,7 @@ class HomePage extends StatelessWidget {
         child: ExpansionTile(
           title: const Text(
             'About This App',
+            //ExpansionTile: Collapsible section with a description of the app.
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           children: const [
@@ -120,9 +146,9 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-//Defines the new page
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
+  ////Defines the new page.
 
   @override
   _ToDoPageState createState() => _ToDoPageState();
